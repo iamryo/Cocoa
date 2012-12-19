@@ -13,7 +13,7 @@
     int firstNumber;
     int secondNumber;
 }
-- (void) prepareRandomNumbers;
+- (id)initWithEntryDate:(NSDate *)theDate;
 - (void) setEntryDate: (NSDate *)date;
 - (NSDate *)entryDate;
 - (int)firstNumber;
