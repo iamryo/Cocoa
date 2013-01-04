@@ -37,12 +37,19 @@ int main(int argc, const char * argv[])
                                       initWithEntryDate: iWeeksFromNow];
             
             [array addObject:newEntry];
+            [newEntry release];
             
         }
+        
+        // Done with 'now' and 'weekComponents'
+        [now release];
+        [weekComponents release];
         
         for (LotteryEntry *entryToPrint in array    ) {
             NSLog(@"%@", entryToPrint);
         }
+        // Done with 'array'
+        [array release];
     }
     return 0;
 }
