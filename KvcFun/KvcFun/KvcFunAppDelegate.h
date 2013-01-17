@@ -8,8 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface KvcFunAppDelegate : NSObject <NSApplicationDelegate>
+@interface KvcFunAppDelegate : NSObject <NSApplicationDelegate> {
+    int fido;
+}
+- (IBAction)incrementFido:(id)sender;
 
 @property (assign) IBOutlet NSWindow *window;
+@property (readwrite, assign) int fido;
 
 @end
