@@ -12,7 +12,7 @@
 
 - (NSArray *)getJSON
 {
-    NSString *url=@"www.grayv.com/ryan/songlist.json";
+    NSString *url=@"http://www.grayv.com/ryan/songlist.json";
 
     NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
 
@@ -21,9 +21,12 @@
 
     NSData *response = [NSURLConnection sendSynchronousRequest: theRequest returningResponse: &resp error: &err];
 
+    NSString * theString = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]; 
+    NSLog(@"response: %@", theString);
+
     NSArray *jsonSongs = [NSJSONSerialization JSONObjectWithData: response options: 0 error: &err];
+    NSLog(@"array = %@", jsonSongs);
 
     return jsonSongs;
-    NSLog(@"Hello?");
 }
 @end

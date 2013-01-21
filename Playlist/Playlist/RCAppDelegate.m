@@ -7,6 +7,7 @@
 //
 
 #import "RCAppDelegate.h"
+#import "Parser.h"
 
 @implementation RCAppDelegate
 
@@ -14,31 +15,34 @@
 {
     self = [super init];
     if (self) {
-        songs = [[NSMutableArray alloc] init];
+        Parser *p = [[Parser alloc] init];
+        [p getJSON];
+        playlist = [[NSMutableArray alloc] init];
+
     }
     return self;
 }
 
-- (void)setSongs:(NSMutableArray *)a
+- (void)setPlaylist:(NSMutableArray *)a
 {
     // This is an unusual setter method.
-    if (a == songs)
+    if (a == playlist)
         return;
     
-    songs = a;
+    playlist = a;
 }
 
 - (NSUInteger)trackCount
 {
-    tracks = [songs count];
+    tracks = [playlist count];
     NSLog(@"Number of tracks = %lx", tracks);
     return tracks;
 }
 
+
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSLog(@"Number of tracks = %lx", tracks);
-    NSLog(@"jsonSongs contains %@", _jsonSongs);
 }
 
 @end

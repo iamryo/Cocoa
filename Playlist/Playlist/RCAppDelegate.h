@@ -11,10 +11,10 @@
 @class Parser;
 
 @interface RCAppDelegate : NSObject <NSApplicationDelegate> {
-    NSMutableArray *songs;
+    NSMutableArray *playlist;
     NSUInteger tracks;
 }
-- (void)setSongs:(NSMutableArray *)a;
+- (void)setPlaylist:(NSMutableArray *)a;
 - (NSUInteger)trackCount;
 @property (assign) IBOutlet NSWindow *window;
 @property (readwrite, copy) NSArray *jsonSongs;
