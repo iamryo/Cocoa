@@ -11,10 +11,10 @@
 @interface Song : NSObject {
     NSString *title;
     NSString *artist;
-    NSNumber *duration;
+    NSString *duration;
 }
 
 @property (readwrite, copy) NSString *title;
 @property (readwrite, copy) NSString *artist;
-@property (readwrite, copy) NSNumber *duration;
+@property (readwrite, copy) NSString *duration;
 @end

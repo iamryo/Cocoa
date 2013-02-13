@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -12,15 +10,19 @@
 				<string>rsmn</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string></string>
+			<string>txt</string>
 			<key>CFBundleTypeName</key>
-			<string>DocumentType</string>
+			<string>RaiseMan Doc</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.bignerdranch.raiseman-doc</string>
+			</array>
 			<key>NSDocumentClass</key>
 			<string>RMDocument</string>
 		</dict>
@@ -33,6 +35,10 @@
 	<string>com.cleversketch.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
@@ -49,7 +55,27 @@
 	<string>Copyright © 2013 Ryan Clark. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>RaiseMan Doc</string>
+			<key>UTTypeIconFile</key>
+			<string>txt</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.bignerdranch.raiseman-doc</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>rsmn</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

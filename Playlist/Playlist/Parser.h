@@ -10,5 +10,5 @@
 
 @interface Parser : NSObject {
 }
--(NSArray *)getJSON;
+-(NSMutableArray *)getJSON;
 @end

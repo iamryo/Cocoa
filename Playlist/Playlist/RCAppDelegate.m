@@ -16,30 +16,51 @@
     self = [super init];
     if (self) {
         Parser *p = [[Parser alloc] init];
-        [p getJSON];
-        playlist = [[NSMutableArray alloc] init];
-
+        self.playlist = [p getJSON];
     }
     return self;
 }
 
-- (void)setPlaylist:(NSMutableArray *)a
+- (NSString *)convertDuration
 {
-    // This is an unusual setter method.
-    if (a == playlist)
-        return;
+    NSInteger totalSeconds=0;
+    for(NSMutableArray *song in _playlist){
+        NSString *durationString = [song valueForKey:@"duration"];
+        NSArray *breakMinSec = [durationString componentsSeparatedByString:@":"];
+        NSInteger sec = [breakMinSec[1]integerValue];
+        NSInteger min = [breakMinSec[0]integerValue];
+        totalSeconds += (sec + min * 60);
+        }
+    NSInteger h = totalSeconds / 3600;
+    NSInteger m = (totalSeconds / 60) % 60;
+    NSInteger s = totalSeconds % 60;
     
-    playlist = a;
+    NSString *totalDurationString = [NSString stringWithFormat:@"%li:%02li:%02li", h, m, s];
+    return totalDurationString;
 }
 
-- (NSUInteger)trackCount
+- (NSUInteger)uniqueArtistCount
 {
-    tracks = [playlist count];
-    NSLog(@"Number of tracks = %lx", tracks);
-    return tracks;
+    NSMutableArray *uniqueArtists = [_playlist valueForKeyPath:@"@distinctUnionOfObjects.artist"];
+    return uniqueArtists.count;
 }
 
-
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+    
+    NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
+    
+    if ([key isEqualToString:@"convertDuration"]) {
+        NSArray *affectingKeys = @[@"playlist"];
+        keyPaths = [keyPaths setByAddingObjectsFromArray:affectingKeys];
+    }
+    
+//    else if ([key isEqualToString:@"uniqueArtistCount"]) {
+//        NSArray *affectingKeys = @[@"playlist"];
+//        keyPaths = [keyPaths setByAddingObjectsFromArray:affectingKeys];
+//        
+//    }
+    return keyPaths;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {

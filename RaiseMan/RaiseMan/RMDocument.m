@@ -8,6 +8,7 @@
 
 #import "RMDocument.h"
 #import "Person.h"
+#import "PreferenceController.h"
 
 @implementation RMDocument
 
@@ -16,8 +17,44 @@
     self = [super init];
     if (self) {
         employees = [[NSMutableArray alloc] init];
+        
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(handleColorChange:)
+                   name:BNRColorChangedNotification
+                 object:nil];
+        NSLog(@"Registered with notification center");
     }
     return self;
+}
+
+- (void)removeEmployee:(id)sender
+{
+    NSArray *selectedPeople = [employeeController selectedObjects];
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Do you really want to delete these people?"
+                                     defaultButton:@"Remove" alternateButton:@"Cancel"
+                                       otherButton:nil
+                         informativeTextWithFormat:@"%ld people will be removed.", (unsigned long)[selectedPeople count]];
+    
+    NSLog(@"Starting alert sheet");
+    [alert beginSheetModalForWindow:[tableView window]
+                      modalDelegate:self
+                     didEndSelector:@selector(alertEnded:code:context:)
+                        contextInfo:NULL];
+}
+
+- (void)alertEnded:(NSAlert *)alert
+              code:(NSInteger)choice
+           context:(void *)v
+{
+    NSLog(@"Alert sheet ended");
+    // If the user chose "Remove", tell the array controller to
+    // delete the people
+    if (choice == NSAlertDefaultReturn) {
+        // The argument to remove: is ignored
+        // the array controller will delete the selected objects
+        [employeeController remove:nil];
+    }
 }
 
 - (void)setEmployees:(NSMutableArray *)a
@@ -128,6 +165,56 @@ static void *RMDocumentKVOContext;
                    context:&RMDocumentKVOContext];
 }
 
+- (IBAction)createEmployee:(id)sender
+{
+    NSWindow *w = [tableView window];
+    
+    // Try to end any editing that is taking place
+    BOOL editingEnded = [w makeFirstResponder:w];
+    if (!editingEnded) {
+        NSLog(@"Unable to end editing");
+        return;
+    }
+    NSUndoManager *undo = [self undoManager];
+    
+    // Has an edit occured already in this event?
+    if ([undo groupingLevel] > 0) {
+        // Close the last group
+        [undo endUndoGrouping];
+        // Open a new group
+        [undo beginUndoGrouping];
+    }
+    // Create the object
+    Person *p = [employeeController newObject];
+    
+    // Add it to the content array of 'employeeController'
+    [employeeController addObject:p];
+    
+    // Re-sort (in case the user has sorted a column)
+    [employeeController rearrangeObjects];
+    
+    // Get the sorted array
+    NSArray *a = [employeeController arrangedObjects];
+    
+    // Find the object just added
+    NSUInteger row = [a indexOfObjectIdenticalTo:p];
+    NSLog(@"starting edit of %@ in row %lu", p, row);
+    
+    // Begin edit in the first column
+    [tableView editColumn:0 row:row withEvent:nil select:YES];
+}
+
+- (void)handleColorChange:(NSNotification *)note
+{
+    NSLog(@"Received notification: %@", note);
+    NSColor *color = [[note userInfo] objectForKey:@"color"];
+    [tableView setBackgroundColor:color];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (NSString *)windowNibName
 {
@@ -139,6 +226,8 @@ static void *RMDocumentKVOContext;
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
     [super windowControllerDidLoadNib:aController];
+    
+    [tableView setBackgroundColor: [PreferenceController preferenceTableBgColor]];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
@@ -149,6 +238,13 @@ static void *RMDocumentKVOContext;
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
+    
+    // End editing
+    [[tableView window] endEditingFor:nil];
+    
+    // Create an NSData object from the employees array
+    return [NSKeyedArchiver archivedDataWithRootObject:employees];
+    
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
     // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
     NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
@@ -158,6 +254,25 @@ static void *RMDocumentKVOContext;
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
+    
+    NSLog(@"About to read data of type: %@", typeName);
+    NSMutableArray *newArray = nil;
+    @try {
+        newArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"exception = %@", exception);
+        if (outError) {
+            NSDictionary *d = [NSDictionary dictionaryWithObject:@"The data is corrupted."
+                                                          forKey:NSLocalizedFailureReasonErrorKey];
+            *outError = [NSError errorWithDomain:NSOSStatusErrorDomain
+                                            code:unimpErr
+                                        userInfo:d];
+        }
+        return NO;
+    }
+    [self setEmployees:newArray];
+    return YES;
     // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
     // You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
     // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.

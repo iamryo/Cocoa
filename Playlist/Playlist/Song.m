@@ -20,9 +20,8 @@
     if (self) {
         title = @"New Track";
         artist = @"New Artist";
-        duration = [[NSNumber alloc] initWithInt:30];
+        duration = @"1:00";
     }
     return self;
 }
-
 @end
