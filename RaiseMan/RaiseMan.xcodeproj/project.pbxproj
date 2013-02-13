@@ -18,6 +18,7 @@
 		20458E6916A5C16A00736D2F /* RMDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20458E6716A5C16A00736D2F /* RMDocument.xib */; };
 		20458E6C16A5C16A00736D2F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20458E6A16A5C16A00736D2F /* MainMenu.xib */; };
 		20458E7416A5C26000736D2F /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 20458E7316A5C26000736D2F /* Person.m */; };
+		2051FB1516CB3047004075AB /* RaiseMan-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20458E5A16A5C16A00736D2F /* RaiseMan-Info.plist */; };
 		20A8CA8316BDDD5900D61E68 /* txt.icns in Resources */ = {isa = PBXBuildFile; fileRef = 20A8CA8216BDDD5900D61E68 /* txt.icns */; };
 		20CF53E316CB23A800E66247 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20CF53E516CB23A800E66247 /* Localizable.strings */; };
 /* End PBXBuildFile section */
@@ -46,8 +47,9 @@
 		20458E7316A5C26000736D2F /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		20A8CA8216BDDD5900D61E68 /* txt.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = txt.icns; sourceTree = "<group>"; };
 		20CF53E016CAFCCE00E66247 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/RMDocument.xib; sourceTree = "<group>"; };
-		20CF53E416CB23A800E66247 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		20CF53E616CB23AD00E66247 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		20CF53E416CB23A800E66247 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		20CF53E616CB23AD00E66247 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		20CF53E716CB2C7E00E66247 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 				20A8CA8316BDDD5900D61E68 /* txt.icns in Resources */,
 				2037E0EF16C476A700546866 /* Preferences.xib in Resources */,
 				20CF53E316CB23A800E66247 /* Localizable.strings in Resources */,
+				2051FB1516CB3047004075AB /* RaiseMan-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +219,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				20458E5C16A5C16A00736D2F /* en */,
+				20CF53E716CB2C7E00E66247 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

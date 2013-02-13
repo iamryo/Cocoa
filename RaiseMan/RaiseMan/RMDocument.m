@@ -31,10 +31,13 @@
 - (void)removeEmployee:(id)sender
 {
     NSArray *selectedPeople = [employeeController selectedObjects];
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Do you really want to delete these people?"
-                                     defaultButton:@"Remove" alternateButton:@"Cancel"
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"REMOVE_MSG", @"Remove")
+                                     defaultButton:NSLocalizedString(@"REMOVE", "@Remove")
+                                   alternateButton:NSLocalizedString(@"CANCEL", @"Cancel")
                                        otherButton:nil
-                         informativeTextWithFormat:@"%ld people will be removed.", (unsigned long)[selectedPeople count]];
+                         informativeTextWithFormat:NSLocalizedString(@"REMOVE_INF",
+                                                                     @"%d people will be removed."),
+                                                                    [selectedPeople count]];
     
     NSLog(@"Starting alert sheet");
     [alert beginSheetModalForWindow:[tableView window]
